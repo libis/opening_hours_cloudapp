@@ -1,0 +1,19 @@
+{
+   "id": "opening-hours-service",
+   "title": "Opening Hours Service",
+   "subtitle": "when open ? - when closed ?",
+   "author": "LIBIS",
+   "fullscreen": {
+      "allow": true,
+      "open": false
+   },
+   "icon": {
+      "type": "url",
+      "value": "/assets/openinghours-logo.png"
+   },
+   "contentSecurity": {
+      "connectSrc": [
+         "https://services.libis.be"
+      ]
+   }
+}

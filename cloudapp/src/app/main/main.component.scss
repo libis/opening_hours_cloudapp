@@ -1,0 +1,86 @@
+.entities-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+textarea {
+  padding: 2px;
+  border-width: 1px;
+  $width: calc(100% - 6px);
+  width: $width;
+  max-width: $width;
+  height: 150px;
+  font-family: monospace;
+  display: block;
+}
+
+textarea,
+section,
+.mat-card {
+  margin-bottom: 20px;
+}
+
+pre {
+  overflow: auto;
+  max-height: 200px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+pre,
+textarea {
+  font-size: 0.9em;
+}
+
+.example-action-buttons {
+  padding-bottom: 20px;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.example-headers-align .mat-mdc-form-field + .mat-mdc-form-field {
+  margin-left: 8px;
+}
+
+section {
+  display: table;
+}
+
+.example-label {
+  display: table-cell;
+  font-size: 14px;
+  margin-left: 8px;
+  min-width: 120px;
+}
+
+.example-button-row {
+  display: table-cell;
+  max-width: 600px;
+}
+
+.example-button-row .mat-mdc-button-base {
+  margin: 8px 8px 8px 0;
+}
+
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 680px;
+  border-bottom:1px solid gray;
+  margin-bottom:3px
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+  width: 120px;
+}
+
+.mat-form-field {
+  width: 95px;
+}

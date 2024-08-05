@@ -1,0 +1,194 @@
+<div *ngIf="data.institution.libraries != undefined && data.institution.libraries[0] == null">
+  <mat-form-field style="width:90%" *ngIf="libraries != null">
+    <mat-label>Library</mat-label>
+    <mat-select [(ngModel)]="selectedLibrary"  (ngModelChange)="onSelectLibrary($event)">
+      <mat-option *ngFor="let library of libraries" [value]="library">{{ library.code }} - {{ library.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div *ngIf="data.institution.libraries != undefined && data.institution.libraries[0] != null">
+  <section style="float:right">
+    <div class="example-button-row">
+      <button mat-stroked-button (click)="onBack()"><mat-icon>chevron_left</mat-icon>{{ backorcancel }}</button>
+      <button mat-flat-button (click)="onSave()" style="background-color:#005cbb;color:White;margin-left:5px">Save</button>
+    </div>
+  </section>
+  <h1 style="margin-bottom:30px">{{ data.institution.libraries[0].name }}</h1>
+  <mat-accordion class="example-headers-align">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <b>General Info </b>
+        </mat-panel-title>
+      </mat-expansion-panel-header> 
+
+      <section style="float:right;margin-bottom:0px">
+        <div class="example-button-row">
+          <button mat-stroked-button (click)="getName()">Reload name</button>
+        </div>
+      </section>
+
+      <mat-form-field style="width:90%">
+        <mat-label>Library Name</mat-label>
+        <input matInput name="name" [(ngModel)]="data.institution.libraries[0].name" (ngModelChange)="onDataChange($event)" />
+      </mat-form-field>
+          
+      <mat-form-field style="width:90%">
+        <mat-label>Address Line 1</mat-label>
+        <input matInput name="address1" [(ngModel)]="data.institution.libraries[0].data.address1" (ngModelChange)="onDataChange($event)"/>
+      </mat-form-field>
+
+      <mat-form-field style="width:90%">
+        <mat-label>Address Line 2</mat-label>
+        <input matInput name="address2" [(ngModel)]="data.institution.libraries[0].data.address2" (ngModelChange)="onDataChange($event)"/>
+      </mat-form-field>
+
+      <mat-form-field style="width:90%">
+        <mat-label>Telephone Number</mat-label>
+        <input matInput name="phone" [(ngModel)]="data.institution.libraries[0].data.phone" (ngModelChange)="onDataChange($event)" x-pattern="(?:([+]\d{1,4})[-.\s]?)?(?:[(](\d{1,3})[)][-.\s]?)?(\d{1,4})[-.\s]?(\d{1,4})[-.\s]?(\d{1,9})"/>
+      </mat-form-field>
+
+      <mat-form-field style="width:90%">
+        <mat-label>Email</mat-label>
+        <input matInput x-type="email" name="email" [(ngModel)]="data.institution.libraries[0].data.email" (ngModelChange)="onDataChange($event)" x-pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"/>
+      </mat-form-field>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <b>Opening hours</b>
+        </mat-panel-title>
+      </mat-expansion-panel-header>      
+      <table border="0" cellspacing="0" cellpadding="0">
+        <tr *ngFor="let doh of data.institution.libraries[0].defaults; index as i" > 
+          <td style="vertical-align:top;padding-right:15px;padding-top:5px;border-bottom:1px solid gray">
+            {{ weekdays[doh.week_day] }}
+          </td>
+          <td style="vertical-align:top;border-bottom:1px solid gray">
+            <table border="0" cellspacing="0" cellpadding="0">
+              <tr *ngFor="let hour of doh.hours; index as j">
+                <td style="vertical-align:top;padding-right:11px">
+                  <mat-form-field>
+                    <mat-label>Open</mat-label>
+                    <mat-select [(ngModel)]="data.institution.libraries[0].defaults[i].hours[j].open"  (ngModelChange)="onDataChange($event)">
+                      <mat-option *ngFor="let time of times" [value]="time" >{{ time }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </td>
+                <td style="vertical-align:top">
+                  <mat-form-field>
+                    <mat-label>Close</mat-label>
+                    <mat-select [(ngModel)]="data.institution.libraries[0].defaults[i].hours[j].closed" (ngModelChange)="onDataChange($event)">
+                      <mat-option *ngFor="let time of times" [value]="time">{{ time }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </td>
+                <td style="text-align:right"><i class="uxf-icon uxf-trash eca-button" (click)="del_doh(i,j)" title="Remove these openinghours"></i></td>
+              </tr>
+              <tr>
+                <td>
+                  <i class="uxf-icon uxf-plus eca-button" (click)="add_doh(i)" title="Add openinghours to this weekday"></i>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <b>Exceptions on Opening hours</b>
+        </mat-panel-title>
+      </mat-expansion-panel-header>      
+      
+      <div class="example-flex-container" *ngFor="let eoh of data.institution.libraries[0].exceptions; index as i">
+        <div>
+          <mat-form-field style="width:120px">
+            <mat-label>Date</mat-label>
+            <input matInput type="date" style="margin-top:1px" [(ngModel)]="data.institution.libraries[0].exceptions[i].date" (ngModelChange)="onDataChange($event)"/>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field style="min-width:205px">
+            <mat-label>Description</mat-label>
+            <input matInput style="margin-top:1px" [(ngModel)]="data.institution.libraries[0].exceptions[i].description" (ngModelChange)="onDataChange($event)"/>
+          </mat-form-field>
+        </div>
+        <div>
+          <div *ngFor="let h of data.institution.libraries[0].exceptions[i].hours; index as j">
+            <mat-form-field>
+              <mat-label>Open</mat-label>
+              <mat-select [(ngModel)]="data.institution.libraries[0].exceptions[i].hours[j].open"  (ngModelChange)="onDataChange($event)">
+                <mat-option *ngFor="let time of times" [value]="time" >{{ time }}</mat-option>
+              </mat-select>
+            </mat-form-field>            
+          </div>
+          <i class="uxf-icon uxf-plus eca-button" (click)="add_eohh(i)" title="Add new hours to this exception"></i>    
+        </div>
+        <div>
+          <div *ngFor="let h of data.institution.libraries[0].exceptions[i].hours; index as j">
+            <mat-form-field>
+              <mat-label>Close</mat-label>
+              <mat-select [(ngModel)]="data.institution.libraries[0].exceptions[i].hours[j].closed"  (ngModelChange)="onDataChange($event)">
+                <mat-option *ngFor="let time of times" [value]="time" >{{ time }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <i class="uxf-icon uxf-trash eca-button" style="margin-top:20px" (click)="del_eohh(i,j)" title="Remove these hours from this exception"></i>
+          </div>
+
+        </div>
+        <div>
+          <mat-checkbox style="margin-top:29px" [(ngModel)]="data.institution.libraries[0].exceptions[i].repeat" (ngModelChange)="onDataChange($event)">Repeat</mat-checkbox>
+
+        </div>
+        <div style="align-self: flex-end;">
+          <i class="uxf-icon uxf-trash eca-button" style="margin-top:20px" (click)="del_eoh(i)" title="Delete exception"></i>
+        </div>
+
+      </div>
+      <i class="uxf-icon uxf-plus eca-button" (click)="add_eoh()" title="Add new exception"></i>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <b>Occupancy</b>
+        </mat-panel-title>
+      </mat-expansion-panel-header>      
+      <div class="example-flex-container" style="justify-content: left;">
+        <div>
+          <mat-form-field style="width:150px">
+            <mat-label>Current occupancy</mat-label>
+            <input matInput type="number" min="0" max="{{data.institution.libraries[0].data.occupancy.max}}" style="margin-top:1px" [(ngModel)]="data.institution.libraries[0].data.occupancy.current" (ngModelChange)="onDataChange($event)"/>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field style="margin-left: 8px;width:150px">
+            <mat-label>Maximum occupancy</mat-label>
+            <input matInput type="number" min="0" style="margin-top:1px" [(ngModel)]="data.institution.libraries[0].data.occupancy.max" (ngModelChange)="onDataChange($event)"/>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <b>Additional Info </b>
+        </mat-panel-title>
+      </mat-expansion-panel-header>      
+      <mat-form-field style="width:90%">
+        <mat-label>Notice</mat-label>
+        <textarea matInput name="notice" [(ngModel)]="data.institution.libraries[0].data.notice" (ngModelChange)="onDataChange($event)"></textarea>
+      </mat-form-field>
+    </mat-expansion-panel>
+  </mat-accordion>    
+</div>
+<!-- <pre>{{ json(data) }} </pre> -->
+
+<div class="loading-shade" *ngIf="loading">
+  <mat-spinner diameter="50"></mat-spinner>
+</div>
