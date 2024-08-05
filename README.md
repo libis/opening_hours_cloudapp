@@ -1,2 +1,3 @@
 # opening_hours_cloudapp
-Alma Cloudapp as UI for opening_hours 
+
+This Alma Cloudapp is a UI for the opening_hours API
