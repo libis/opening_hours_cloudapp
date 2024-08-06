@@ -1,0 +1,12 @@
+<section style="float:right">
+  <div class="example-button-row">
+    <button mat-stroked-button (click)="back()"><mat-icon>chevron_left</mat-icon>Back</button>
+    <button mat-flat-button (click)="save()" color="primary" >Save</button>
+  </div>
+</section>
+
+<mat-form-field width="90%">
+  <mat-label>Service URL</mat-label>
+  <input matInput [(ngModel)]="config.serviceUrl">
+</mat-form-field>  
+

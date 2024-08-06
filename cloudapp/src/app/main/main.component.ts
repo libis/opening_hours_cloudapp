@@ -2,7 +2,7 @@ import { Observable  } from 'rxjs';
 import { finalize, map, tap } from 'rxjs/operators';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, OnDestroy} from '@angular/core';
-import { CloudAppRestService, CloudAppEventsService, Request, HttpMethod, Entity, RestErrorResponse, AlertService } from '@exlibris/exl-cloudapp-angular-lib';
+import { CloudAppConfigService, CloudAppRestService, CloudAppEventsService, Request, HttpMethod, Entity, RestErrorResponse, AlertService } from '@exlibris/exl-cloudapp-angular-lib';
 import { MatRadioChange } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
@@ -19,7 +19,7 @@ import { NONE_TYPE, NullTemplateVisitor } from '@angular/compiler';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit, OnDestroy {
-  ohUrl: string = "https://services.libis.be/opening_hours/"
+  ohUrl: string = ""
   loading = false
   libraries: any;
   selectedLibrary: any = "" 
@@ -35,6 +35,7 @@ export class MainComponent implements OnInit, OnDestroy {
   constructor(
     private restService: CloudAppRestService,
     private eventsService: CloudAppEventsService,
+    private configService: CloudAppConfigService,
     private alert: AlertService,
     private http: HttpClient
   ) { }
@@ -62,6 +63,18 @@ export class MainComponent implements OnInit, OnDestroy {
 
     this.eventsService.getAuthToken()
       .subscribe(authToken => this.authToken = authToken);
+
+
+    this.configService.getAsFormGroup().subscribe( conf => {
+      if (Object.keys(conf.value).length!=0) {
+        this.ohUrl = conf.value.serviceUrl
+
+        if (this.ohUrl == "") {
+          this.ohUrl = "https://services.libis.be/opening_hours/"
+        }
+      }
+    });
+
   }
 
   ngOnDestroy(): void {
@@ -103,16 +116,20 @@ export class MainComponent implements OnInit, OnDestroy {
           this.data.institution.libraries[0] = resp; 
         },
         error: e => {
-          this.data.institution.libraries = [{}]
-          this.data.institution.libraries[0].code = this.selectedLibrary.code;
-          this.data.institution.libraries[0].name = this.selectedLibrary.name;
-          this.data.institution.libraries[0].defaults = []
-          for(let i=1;i<=7;i++) {
-            this.data.institution.libraries[0].defaults.push({"week_day":i % 7,"hours": [{"open": "","closed": ""}]})
+          if (e.status == 404) {
+            this.data.institution.libraries = [{}]
+            this.data.institution.libraries[0].code = this.selectedLibrary.code;
+            this.data.institution.libraries[0].name = this.selectedLibrary.name;
+            this.data.institution.libraries[0].defaults = []
+            for(let i=1;i<=7;i++) {
+              this.data.institution.libraries[0].defaults.push({"week_day":i % 7,"hours": [{"open": "","closed": ""}]})
+            }
+            this.data.institution.libraries[0].exceptions = []
+            this.data.institution.libraries[0].data = {}
+          } else {
+            this.alert.error(e.message)
           }
-          this.data.institution.libraries[0].exceptions = []
-          this.data.institution.libraries[0].data = {}
-          //this.alert.error(e.message)
+          console.log(e)
         }
       });    
   }

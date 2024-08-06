@@ -9,11 +9,13 @@ import { MaterialModule, CloudAppTranslateModule, AlertModule } from '@exlibris/
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MainComponent } from './main/main.component';
+import { ConfigurationComponent } from './configuration/configuration.component'
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent
+    MainComponent,
+    ConfigurationComponent
   ],
   imports: [
     MaterialModule,
@@ -23,7 +25,7 @@ import { MainComponent } from './main/main.component';
     HttpClientModule,
     AlertModule,
     FormsModule,
-    ReactiveFormsModule,     
+    ReactiveFormsModule,   
     CloudAppTranslateModule.forRoot(),
   ],
   providers: [
