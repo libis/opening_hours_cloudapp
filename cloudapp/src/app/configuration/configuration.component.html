@@ -10,3 +10,6 @@
   <input matInput [(ngModel)]="config.serviceUrl">
 </mat-form-field>  
 
+<div class="loading-shade" *ngIf="isSaving">
+  <mat-spinner diameter="50"></mat-spinner>
+</div>
