@@ -152,7 +152,10 @@ export class MainComponent implements OnInit, OnDestroy {
     this.http.post(this.ohUrl+tenant,this.data,httpOptions)
     .subscribe(
       result => {
-        this.onBack();
+        this.alert.success('Successfully saved.');
+        setTimeout(() => {
+          this.onBack()
+        }, 3000);
       },
       error => this.alert.error('Failed to update information: ' + error.message)
     );    
