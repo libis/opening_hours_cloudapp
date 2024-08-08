@@ -153,6 +153,7 @@ export class MainComponent implements OnInit, OnDestroy {
     .subscribe(
       result => {
         this.alert.success('Successfully saved.');
+        this.backorcancel = "Back"
         setTimeout(() => {
           this.onBack()
         }, 3000);
