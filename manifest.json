@@ -3,7 +3,7 @@
    "title": "Opening Hours",
    "subtitle": "when open ? - when closed ?",
    "author": "LIBIS",
-   "description":"Cloudapp that provides the functionality of a opening/closing hours calendar",
+   "description": "Cloudapp that provides the functionality of a opening/closing hours calendar",
    "fullscreen": {
       "allow": true,
       "open": false
