@@ -1,0 +1,8 @@
+{
+   "title": "Opening Hours",
+   "subtitle": "when open ? - when closed ?",
+   "author": "LIBIS",
+   "env": "https://libis-kul-psb.alma.exlibrisgroup.com/institution/32KUL_KUL",
+   "port": 4200,
+   "name": "opening-hours"
+}
