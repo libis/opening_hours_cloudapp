@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Translations</h2>
+<mat-dialog-content>
+    <mat-form-field *ngFor="let l of getLanguages()">
+        <label>{{ l[1] }}</label>
+        <input matInput [(ngModel)]="localdata.value[l[0]]" value="" id="l[0]" name="l[0]" pattern=".+"> 
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions style="float:right;margin-top:40px">
+    <button class="mat-raised-button"(click)="close()" style="margin-right:5px">Close</button>
+    <button class="mat-raised-button mat-primary"(click)="apply()">Apply</button>
+</mat-dialog-actions>
+<!-- <pre>{{ json(localdata) }}</pre> -->

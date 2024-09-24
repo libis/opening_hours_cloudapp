@@ -9,7 +9,28 @@
   <mat-label>Service URL</mat-label>
   <input matInput [(ngModel)]="config.serviceUrl">
 </mat-form-field>  
+<mat-form-field width="90%">
+  <mat-label>Languages</mat-label>
+  <mat-select [(ngModel)]="selectedLanguage" id="language" name="language" (ngModelChange)="onSelect()">
+    <mat-option *ngFor="let language of languagesList" [value]="language[0]">{{ language[1] }}</mat-option>
+  </mat-select>  
+</mat-form-field>
+<mat-radio-group
+    aria-labelledby="example-radio-group-label"
+    class="example-radio-group"
+    [(ngModel)]="config.defaultLanguage">
+  <table border="0" cellspacing="0" cellpadding="0">
+  <tr *ngFor="let lang of selectedLanguageList()">
+    <td><i *ngIf="lang[0] != config.defaultLanguage" class="uxf-icon uxf-minus eca-button" (click)="removeLanguage(lang[0])" title="Remove"></i></td>
+    <td>{{ lang[1] }}</td>
+    <td>
+        <mat-radio-button class="example-radio-button" [value]="lang[0]" title="Default language"></mat-radio-button>
+    </td>
+  </tr>
+  </table>
+</mat-radio-group>
 
 <div class="loading-shade" *ngIf="isSaving">
   <mat-spinner diameter="50"></mat-spinner>
-</div>
+</div> 
+<!-- <pre>{{ json(config) }}</pre> -->

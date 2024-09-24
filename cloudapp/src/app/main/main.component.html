@@ -10,7 +10,7 @@
   <section style="float:right">
     <div class="example-button-row">
       <button mat-stroked-button (click)="onBack()"><mat-icon>chevron_left</mat-icon>{{ backorcancel }}</button>
-      <button mat-flat-button (click)="onSave()" color="primary" style="margin-left:5px">Save</button>
+      <button mat-flat-button (click)="onSave()" color="primary" style="margin-left:5px" [disabled]="!isValid()">Save</button>
     </div>
   </section>
   <h1 style="margin-bottom:30px">{{ data.institution.libraries[0].name }}</h1>
@@ -27,31 +27,20 @@
           <button mat-stroked-button (click)="getName()">Reload name</button>
         </div>
       </section>
-
-      <mat-form-field style="width:90%">
-        <mat-label>Library Name</mat-label>
-        <input matInput name="name" [(ngModel)]="data.institution.libraries[0].name" (ngModelChange)="onDataChange($event)" />
-      </mat-form-field>
-          
-      <mat-form-field style="width:90%">
-        <mat-label>Address Line 1</mat-label>
-        <input matInput name="address1" [(ngModel)]="data.institution.libraries[0].data.address1" (ngModelChange)="onDataChange($event)"/>
-      </mat-form-field>
-
-      <mat-form-field style="width:90%">
-        <mat-label>Address Line 2</mat-label>
-        <input matInput name="address2" [(ngModel)]="data.institution.libraries[0].data.address2" (ngModelChange)="onDataChange($event)"/>
-      </mat-form-field>
-
-      <mat-form-field style="width:90%">
-        <mat-label>Telephone Number</mat-label>
-        <input matInput name="phone" [(ngModel)]="data.institution.libraries[0].data.phone" (ngModelChange)="onDataChange($event)" x-pattern="(?:([+]\d{1,4})[-.\s]?)?(?:[(](\d{1,3})[)][-.\s]?)?(\d{1,4})[-.\s]?(\d{1,4})[-.\s]?(\d{1,9})"/>
-      </mat-form-field>
-
-      <mat-form-field style="width:90%">
-        <mat-label>Email</mat-label>
-        <input matInput x-type="email" name="email" [(ngModel)]="data.institution.libraries[0].data.email" (ngModelChange)="onDataChange($event)" x-pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"/>
-      </mat-form-field>
+      <mat-form-field style="width:90%" *ngFor="let fld of getKeys('general')">
+        <mat-label>{{ data.institution.libraries[0].data[fld].description}}</mat-label>
+          <div *ngIf="isTranslatable(data.institution.libraries[0].data[fld].type)">
+          <textarea *ngIf="data.institution.libraries[0].data[fld].type == 'textarea'" matInput [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value[defaultLanguage]" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"></textarea> 
+          <input *ngIf="data.institution.libraries[0].data[fld].type != 'textarea'" matInput [type]="data.institution.libraries[0].data[fld].type" [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value[defaultLanguage]" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"/> 
+          <i class="uxf-icon uxf-globe" style="float:right;margin-top:-18px" (click)="openTranslationDialog(fld)" title="Add translations"></i>
+          </div>
+          <div *ngIf="!isTranslatable(data.institution.libraries[0].data[fld].type)">
+            <textarea *ngIf="data.institution.libraries[0].data[fld].type == 'textarea'" matInput [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"></textarea> 
+            <input *ngIf="data.institution.libraries[0].data[fld].type != 'textarea'" matInput [type]="data.institution.libraries[0].data[fld].type" [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"/> 
+          </div>
+        </mat-form-field>
+      <p><i class="uxf-icon uxf-plus eca-button" (click)="openNewDataDialog('general')" title="Add new field"></i></p>
+      
     </mat-expansion-panel>
 
     <mat-expansion-panel>
@@ -162,16 +151,16 @@
         <div>
           <mat-form-field style="width:150px">
             <mat-label>Current occupancy</mat-label>
-            <input matInput type="number" min="0" max="{{data.institution.libraries[0].data.occupancy.max}}" style="margin-top:1px" [(ngModel)]="data.institution.libraries[0].data.occupancy.current" (ngModelChange)="onDataChange($event)"/>
+            <input matInput type="number" min="0" max="{{data.institution.libraries[0].data.occupancy.value.maximum}}" style="margin-top:1px" [(ngModel)]="data.institution.libraries[0].data.occupancy.value.current" (ngModelChange)="onDataChange($event)"/>
           </mat-form-field>
         </div>
         <div>
           <mat-form-field style="margin-left: 8px;width:150px">
             <mat-label>Maximum occupancy</mat-label>
-            <input matInput type="number" min="0" style="margin-top:1px" [(ngModel)]="data.institution.libraries[0].data.occupancy.max" (ngModelChange)="onDataChange($event)"/>
+            <input matInput type="number" min="0" style="margin-top:1px" [(ngModel)]="data.institution.libraries[0].data.occupancy.value.maximum" (ngModelChange)="onDataChange($event)"/>
           </mat-form-field>
         </div>
-      </div>
+      </div> 
     </mat-expansion-panel>
 
     <mat-expansion-panel>
@@ -180,15 +169,23 @@
           <b>Additional Info </b>
         </mat-panel-title>
       </mat-expansion-panel-header>      
-      <mat-form-field style="width:90%">
-        <mat-label>Notice</mat-label>
-        <textarea matInput name="notice" [(ngModel)]="data.institution.libraries[0].data.notice" (ngModelChange)="onDataChange($event)"></textarea>
+      <mat-form-field style="width:90%" *ngFor="let fld of getKeys('additional')">
+        <div *ngIf="isTranslatable(data.institution.libraries[0].data[fld].type)">
+          <textarea *ngIf="data.institution.libraries[0].data[fld].type == 'textarea'" matInput [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value[defaultLanguage]" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"></textarea> 
+          <input *ngIf="data.institution.libraries[0].data[fld].type != 'textarea'" matInput [type]="data.institution.libraries[0].data[fld].type" [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value[defaultLanguage]" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"/> 
+          <i class="uxf-icon uxf-globe" style="float:right;margin-top:-18px" (click)="openTranslationDialog(data.institution.libraries[0].data[fld])" title="Add translations"></i>
+        </div>
+        <div *ngIf="!isTranslatable(data.institution.libraries[0].data[fld].type)">
+          <textarea *ngIf="data.institution.libraries[0].data[fld].type == 'textarea'" matInput [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"></textarea> 
+          <input *ngIf="data.institution.libraries[0].data[fld].type != 'textarea'" matInput [type]="data.institution.libraries[0].data[fld].type" [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"/> 
+        </div>
       </mat-form-field>
+      <p><i class="uxf-icon uxf-plus eca-button" (click)="openNewDataDialog('additional')" title="Add new field"></i></p>
     </mat-expansion-panel>
   </mat-accordion>    
 </div>
 <!-- <pre>{{ json(data) }} </pre> -->
-
+<!-- <pre>{{json(languages)}}</pre> -->
 <div class="loading-shade" *ngIf="loading">
   <mat-spinner diameter="50"></mat-spinner>
 </div>

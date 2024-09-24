@@ -9,12 +9,18 @@ import { MaterialModule, CloudAppTranslateModule, AlertModule } from '@exlibris/
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MainComponent } from './main/main.component';
-import { ConfigurationComponent } from './configuration/configuration.component'
+import { NewDataComponent} from './newdata/newdata.component';
+import { ConfigurationComponent } from './configuration/configuration.component';
+import { TranslationComponent} from './translation/translation.component';
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
+    NewDataComponent,
+    TranslationComponent,
     ConfigurationComponent
   ],
   imports: [
@@ -27,6 +33,7 @@ import { ConfigurationComponent } from './configuration/configuration.component'
     FormsModule,
     ReactiveFormsModule,   
     CloudAppTranslateModule.forRoot(),
+    MatDialogModule
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'standard' } },
