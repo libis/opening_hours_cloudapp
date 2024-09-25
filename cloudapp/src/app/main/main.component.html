@@ -22,11 +22,11 @@
         </mat-panel-title>
       </mat-expansion-panel-header> 
 
-      <section style="float:right;margin-bottom:0px">
+<!--      <section style="float:right;margin-bottom:0px">
         <div class="example-button-row">
           <button mat-stroked-button (click)="getName()">Reload name</button>
         </div>
-      </section>
+      </section> -->
       <mat-form-field style="width:90%" *ngFor="let fld of getKeys('general')">
         <mat-label>{{ data.institution.libraries[0].data[fld].description}}</mat-label>
           <div *ngIf="isTranslatable(data.institution.libraries[0].data[fld].type)">

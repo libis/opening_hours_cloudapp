@@ -205,7 +205,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
     this.loadData(path)
   }
-
+/*
   getName() {
     if (this.data.institution.libraries[0].data.name == undefined) {
       var values: {}
@@ -223,7 +223,7 @@ export class MainComponent implements OnInit, OnDestroy {
       this.data.institution.libraries[0].data.name.value = this.selectedLibrary.name
     }
   }
-
+*/
   onDataChange(val:any) {
     this.backorcancel = "Cancel"
   }
