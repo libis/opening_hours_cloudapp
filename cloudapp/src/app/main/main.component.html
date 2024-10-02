@@ -170,6 +170,7 @@
         </mat-panel-title>
       </mat-expansion-panel-header>      
       <mat-form-field style="width:90%" *ngFor="let fld of getKeys('additional')">
+        <mat-label>{{ data.institution.libraries[0].data[fld].description}}</mat-label>
         <div *ngIf="isTranslatable(data.institution.libraries[0].data[fld].type)">
           <textarea *ngIf="data.institution.libraries[0].data[fld].type == 'textarea'" matInput [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value[defaultLanguage]" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"></textarea> 
           <input *ngIf="data.institution.libraries[0].data[fld].type != 'textarea'" matInput [type]="data.institution.libraries[0].data[fld].type" [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value[defaultLanguage]" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"/> 
