@@ -1,8 +1,9 @@
-<h2 mat-dialog-title>Translations</h2>
+<h2 mat-dialog-title>Translations of {{ localdata.description }}</h2>
 <mat-dialog-content>
     <mat-form-field *ngFor="let l of getLanguages()">
         <label>{{ l[1] }}</label>
-        <input matInput [(ngModel)]="localdata.value[l[0]]" value="" id="l[0]" name="l[0]" pattern=".+"> 
+        <textarea *ngIf="localdata.type == 'textarea'" matInput [name]="l[0]" [(ngModel)]="localdata.value[l[0]]" style="resize: none"></textarea> 
+        <input *ngIf="localdata.type != 'textarea'" matInput [(ngModel)]="localdata.value[l[0]]" value="" id="l[0]" name="l[0]" pattern=".+"> 
     </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions style="float:right;margin-top:40px">

@@ -11,3 +11,14 @@ label {
     min-width: 120px;
   }
 
+textarea {
+padding: 2px;
+border-width: 1px;
+$width: calc(100% - 6px);
+width: $width;
+max-width: $width;
+height: 150px;
+font-family: monospace;
+display: block;
+resize: none;
+}
