@@ -30,12 +30,12 @@
       <mat-form-field style="width:90%" *ngFor="let fld of getKeys('general')">
         <mat-label>{{ data.institution.libraries[0].data[fld].description}}</mat-label>
           <div *ngIf="isTranslatable(data.institution.libraries[0].data[fld].type)">
-          <textarea *ngIf="data.institution.libraries[0].data[fld].type == 'textarea'" matInput [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value[defaultLanguage]" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"></textarea> 
+          <textarea *ngIf="data.institution.libraries[0].data[fld].type == 'textarea'" matInput [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value[defaultLanguage]" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)" style="resize: none"></textarea> 
           <input *ngIf="data.institution.libraries[0].data[fld].type != 'textarea'" matInput [type]="data.institution.libraries[0].data[fld].type" [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value[defaultLanguage]" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"/> 
           <i class="uxf-icon uxf-globe" style="float:right;margin-top:-18px" (click)="openTranslationDialog(fld)" title="Add translations"></i>
           </div>
           <div *ngIf="!isTranslatable(data.institution.libraries[0].data[fld].type)">
-            <textarea *ngIf="data.institution.libraries[0].data[fld].type == 'textarea'" matInput [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"></textarea> 
+            <textarea *ngIf="data.institution.libraries[0].data[fld].type == 'textarea'" matInput [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)" style="resize: none"></textarea> 
             <input *ngIf="data.institution.libraries[0].data[fld].type != 'textarea'" matInput [type]="data.institution.libraries[0].data[fld].type" [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"/> 
           </div>
         </mat-form-field>
@@ -172,12 +172,12 @@
       <mat-form-field style="width:90%" *ngFor="let fld of getKeys('additional')">
         <mat-label>{{ data.institution.libraries[0].data[fld].description}}</mat-label>
         <div *ngIf="isTranslatable(data.institution.libraries[0].data[fld].type)">
-          <textarea *ngIf="data.institution.libraries[0].data[fld].type == 'textarea'" matInput [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value[defaultLanguage]" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"></textarea> 
+          <textarea *ngIf="data.institution.libraries[0].data[fld].type == 'textarea'" matInput [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value[defaultLanguage]" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)" style="resize: none"></textarea> 
           <input *ngIf="data.institution.libraries[0].data[fld].type != 'textarea'" matInput [type]="data.institution.libraries[0].data[fld].type" [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value[defaultLanguage]" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"/> 
-          <i class="uxf-icon uxf-globe" style="float:right;margin-top:-18px" (click)="openTranslationDialog(data.institution.libraries[0].data[fld])" title="Add translations"></i>
+          <i class="uxf-icon uxf-globe" style="float:right;margin-top:-18px" (click)="openTranslationDialog(fld)" title="Add translations"></i>
         </div>
         <div *ngIf="!isTranslatable(data.institution.libraries[0].data[fld].type)">
-          <textarea *ngIf="data.institution.libraries[0].data[fld].type == 'textarea'" matInput [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"></textarea> 
+          <textarea *ngIf="data.institution.libraries[0].data[fld].type == 'textarea'" matInput [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)" style="resize: none"></textarea> 
           <input *ngIf="data.institution.libraries[0].data[fld].type != 'textarea'" matInput [type]="data.institution.libraries[0].data[fld].type" [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"/> 
         </div>
       </mat-form-field>
