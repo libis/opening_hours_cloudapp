@@ -254,7 +254,7 @@ export class MainComponent implements OnInit, OnDestroy {
       if (result) {
         let neworder = this.getMaxOrder(section)+1
         if (this.isTranslatable(result.type)) {
-          var values: {}
+          var values = {}
           for (let i in this.languages){
             values[this.languages[i]] = ""
           }
