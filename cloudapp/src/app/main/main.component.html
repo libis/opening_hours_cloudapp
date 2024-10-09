@@ -1,6 +1,6 @@
 <div *ngIf="data.institution.libraries != undefined && data.institution.libraries[0] == null">
   <mat-form-field style="width:90%" *ngIf="libraries != null">
-    <mat-label>Library</mat-label>
+    <mat-label>Choose a library</mat-label>
     <mat-select [(ngModel)]="selectedLibrary"  (ngModelChange)="onSelectLibrary($event)">
       <mat-option *ngFor="let library of libraries" [value]="library">{{ library.code }} - {{ library.name }}</mat-option>
     </mat-select>
