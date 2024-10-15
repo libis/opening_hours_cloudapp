@@ -20,7 +20,7 @@ The expansion-panel General Info contains, by default, a field with the name of 
 Clicking the worldglobe-icon opens the translations-dialog.
 
 ### Translations
-The translations-dialog allows the user to enter the translations of certain fields. The Apply-button keep the chnages made in memory but these will only be saved after clicking the Save-button. The Close-button closes the dialog and forgets the changes.
+The translations-dialog allows the user to enter the translations of certain fields. The Apply-button keeps the changes made in memory but these will only be saved after clicking the Save-button. The Close-button closes the dialog and forgets the changes.
 
 ![Translations](https://github.com/libis/opening_hours_cloudapp/blob/main/cloudapp/docs/translate.png)
 
@@ -28,16 +28,16 @@ The translations-dialog allows the user to enter the translations of certain fie
 In the General Info expansion panel the user can use the +-icon to add additional fields. This icon opens the New datafield-dialog
 
 Description : A short one or two word description of the field to be used in the Opening Hours Cloud App to indicate the meaning of the field.
-This can consist of alpha-numerical characters, punctuation and spaces
+This can consist of alpha-numerical characters, punctuation and spaces.
 
-Variable Name : The name of the variable under witch the data will be available in the Opening Hours API
+Variable Name : The name of the variable under witch the data will be available in the Opening Hours API.
 This can consist of alpha-numerical characters but can not start with a number.
 
 Type : There are 8 types of fields : Text, Long Text, Number, Phonenumber, Email, URL, Date, Time. Each corresponds to a kind of information that can be entered in the field. 
 
 ![New datafield](https://github.com/libis/opening_hours_cloudapp/blob/main/cloudapp/docs/new.png)
 
-Click the Add-button to add the field to the General Info expansion panel
+Click the Add-button to add the field to the General Info expansion panel.
 
 ## Opening hours
 The Opening hours expansion panel allows the user to enter the normal opening hours of the library. For each day of the week different hours can be entered. The +-icon allows for more entries to be created in case there of multiple open sessions during one day (like AM and PM)
@@ -51,7 +51,7 @@ Sometimes there are days where the opening hours differ from normal opening hour
 The expansion panel Exceptions on opening hours allows the user to enter those dates and times.
 It works similary to the Opening hours but now a date needs to be given.
 An exception can be indicated to repeat annualy like a national holiday or anniversary. Again like with the opening hours the +-icon allows for multiple open sessions that day. An exception without an open and close time is considered a closed day.
-The trash-icon deletes an entry
+The trash-icon deletes an entry.
 The information is saved by clicking the Save-button.
 
 ![Exceptions](https://github.com/libis/opening_hours_cloudapp/blob/main/cloudapp/docs/exceptions.png)
@@ -63,7 +63,7 @@ For this the Occupancy expansion panel contains 2 fields.
 Maximum occupancy : the maximum number of people allowed in the library at the same time. Usually limited by the number of study-seats available.
 Current occupancy : the number of people currenty in the library.
 
-This information is saved by clicking the Save-button
+This information is saved by clicking the Save-button.
 
 ![Occupancy](https://github.com/libis/opening_hours_cloudapp/blob/main/cloudapp/docs/occupancy.png)
 
