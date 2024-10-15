@@ -58,7 +58,7 @@ The information is saved by clicking the Save-button.
 
 ## Occupancy
 The Occupancy expansion panel allows for the user to enter the number of people in the library to indicate how busy it is.
-For this th Occupancy expansion panel contains 2 fields.
+For this the Occupancy expansion panel contains 2 fields.
 
 Maximum occupancy : the maximum number of people allowed in the library at the same time. Usually limited by the number of study-seats available.
 Current occupancy : the number of people currenty in the library.
