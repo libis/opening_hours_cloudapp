@@ -31,7 +31,7 @@ Description : A short one or two word description of the field to be used in the
 This can consist of alpha-numerical characters, punctuation and spaces.
 
 Variable Name : The name of the variable under witch the data will be available in the Opening Hours API.
-This can consist of alpha-numerical characters but can not start with a number.
+This can consist of lowercase alpha-numerical characters but can not start with a number.
 
 Type : There are 8 types of fields : Text, Long Text, Number, Phonenumber, Email, URL, Date, Time. Each corresponds to a kind of information that can be entered in the field. 
 
