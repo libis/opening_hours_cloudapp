@@ -13,7 +13,7 @@ export class TranslationComponent implements OnInit {
   languages: any;
   languagesList: any;
   ohUrl: any = ""
-  url: string = '/assets/languages.json';
+  url: string = 'assets/languages.json';
 
 
   constructor(

@@ -23,7 +23,7 @@ import { HttpClient } from '@angular/common/http';
 export class ConfigurationComponent implements OnInit {
   config: any = {"serviceUrl":''}
   isSaving = false;
-  url: string = '/assets/languages.json';
+  url: string = 'assets/languages.json';
   languages: any;
   languagesList: any;
   selectedLanguage: string = ""
