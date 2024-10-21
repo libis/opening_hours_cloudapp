@@ -61,6 +61,14 @@ export class ConfigurationComponent implements OnInit {
 
   save() {
     this.isSaving = true;
+
+    // add trailing slash if it is missing
+    if( this.config.serviceUrl != '') {
+      if (this.config.serviceUrl.slice(-1) != '/') {
+        this.config.serviceUrl = this.config.serviceUrl + '/'
+      }
+    }
+
     this.configService.set(this.config).subscribe(
       () => {
         this.alert.success('Configuration successfully saved.');
