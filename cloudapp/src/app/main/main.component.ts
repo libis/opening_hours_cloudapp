@@ -76,10 +76,8 @@ export class MainComponent implements OnInit, OnDestroy {
       error => this.alert.error('Failed to retrieve institution: ' + error.message)
     );    
 
-
     this.eventsService.getAuthToken()
       .subscribe(authToken => this.authToken = authToken);
-
 
     this.configService.getAsFormGroup().subscribe( conf => {
       if (Object.keys(conf.value).length!=0) {
