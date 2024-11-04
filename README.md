@@ -49,7 +49,7 @@ Again the data is only saved after clicking the Save-button.
 ## Exceptions on opening hours
 Sometimes there are days where the opening hours differ from normal opening hours or the library might be closed (ex. holidays, special occasions, ...)
 The expansion panel Exceptions on opening hours allows the user to enter those dates and times.
-It works similary to the Opening hours but now a date needs to be given.
+It works similary to the Opening hours but now a startdate and enddate needs to be given. 
 An exception can be indicated to repeat annualy like a national holiday or anniversary. Again like with the opening hours the +-icon allows for multiple open sessions that day. An exception without an open and close time is considered a closed day.
 The trash-icon deletes an entry.
 The information is saved by clicking the Save-button.
