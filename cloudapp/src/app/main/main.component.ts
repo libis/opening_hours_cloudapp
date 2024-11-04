@@ -26,10 +26,12 @@ export class MainComponent implements OnInit, OnDestroy {
   defaultLanguage: any = ""
   loading = false
   libraries: any;
+  c_user: any;
   selectedLibrary: any = "" 
   record: any = null
   data: any = {"institution":{"libraries":[null]}}
   x: any = ""
+  todelete : any = []
 
   backorcancel: string = "Back"
   authToken: string
@@ -58,7 +60,9 @@ export class MainComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.loadLibraries() 
+    this.loadUser()
+    //this.loadLibraries() 
+
     const zeroPad = (num, places=2) => String(num).padStart(places, '0')
     for (let h = 0; h<24; h++) {
       for (let m = 0; m<60; m+=15) {
@@ -107,9 +111,29 @@ export class MainComponent implements OnInit, OnDestroy {
   loadLibraries() {
     this.restService.call<any>("/almaws/v1/conf/libraries")
     .subscribe(
-      result => this.libraries = result.library.sort((a,b) => a.code > b.code),
+      result => {
+        let scopes = this.c_user.user_role.filter((t) => (t.role_type.desc == 'Circulation Desk Manager')).map(x => x.scope.value)
+        this.libraries = result.library.filter((s) => (scopes.indexOf(s.code) > -1)).sort((a,b) => a.code > b.code)
+        if (this.libraries.length == 1) {
+          this.selectedLibrary = this.libraries[0]
+          this.onSelectLibrary(this.selectedLibrary)
+        }
+      },
       error => this.alert.error('Failed to retrieve libraries: ' + error.message)
     );    
+  }
+
+  loadUser() {
+    this.restService.call<any>("/almaws/v1/users/ME")
+    .subscribe(
+      result => {
+        console.log(result)
+        this.c_user = result
+        this.loadLibraries()
+      },
+      error => this.alert.error('Failed to retrieve user: ' + error.message)
+    );
+    
   }
 
   loadData(path) {
@@ -139,6 +163,46 @@ export class MainComponent implements OnInit, OnDestroy {
             }
           }
           if (this.data.institution.libraries[0].data.occupancy == undefined) this.data.institution.libraries[0].data.occupancy = {"type": "occupancy","ui": "occupancy","value": { "current": 0,"maximum": 0 }, "order":0}
+
+
+          // clean up and sort the defaults
+          var sorted = [
+            {"week_day":1,"hours":[{"open":"","closed":""}]},
+            {"week_day":2,"hours":[{"open":"","closed":""}]},
+            {"week_day":3,"hours":[{"open":"","closed":""}]},
+            {"week_day":4,"hours":[{"open":"","closed":""}]},
+            {"week_day":5,"hours":[{"open":"","closed":""}]},
+            {"week_day":6,"hours":[{"open":"","closed":""}]},
+            {"week_day":0,"hours":[{"open":"","closed":""}]},
+          ]
+          if (this.data.institution.libraries[0].defaults != undefined) {
+            for (var j = 0; j < this.data.institution.libraries[0].defaults.length; j++){
+              if (this.data.institution.libraries[0].defaults[j] != null) {
+                var k = this.data.institution.libraries[0].defaults[j].week_day - 1
+                if (k<0) { k=6 }
+                sorted[k] = this.data.institution.libraries[0].defaults[j]
+              }
+
+            }
+          }
+          this.data.institution.libraries[0].defaults = sorted
+
+          var valid = {}
+          for(var key in this.data.institution.libraries[0].data) {
+            var v = this.data.institution.libraries[0].data[key]
+            if (v.value != undefined && (v.description != undefined || key == 'occupancy') && v.type != undefined && v.ui != undefined && v.order != undefined){
+              valid[key] = v
+            }
+          }
+          this.data.institution.libraries[0].data = valid
+
+          for (var key in this.data.institution.libraries[0].exceptions){
+            var val = this.data.institution.libraries[0].exceptions[key].date
+            if (typeof val != 'object') {
+              var d = {"from":val, "until":val}
+              this.data.institution.libraries[0].exceptions[key].date = d
+            }
+          }
           this.loading = false;
         })
       )
@@ -173,6 +237,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   onSave() {
     var tenant = this.selectedLibrary.path.split(".")[0]
+    var path = this.selectedLibrary.path.replaceAll(".","/")
     this.loading = true
     const httpOptions = {
       headers: new HttpHeaders({
@@ -181,15 +246,20 @@ export class MainComponent implements OnInit, OnDestroy {
       })
     };
 
+    while (this.todelete.length > 0) {
+      this.http.delete(this.ohUrl+path+"/data/"+this.todelete.pop(),httpOptions)
+      .subscribe(
+        result => { console.log("deleted") },
+        error => { console.log("delete failed") }
+      );          
+    }
+
     this.http.post(this.ohUrl+tenant,this.data,httpOptions)
     .subscribe(
       result => {
         this.loading = false
         this.alert.success('Successfully saved.');
         this.backorcancel = "Back"
-        setTimeout(() => {
-          this.onBack()
-        }, 3000);
       },
       error => {
         this.alert.error('Failed to update information: ' + error.message)
@@ -203,25 +273,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
     this.loadData(path)
   }
-/*
-  getName() {
-    if (this.data.institution.libraries[0].data.name == undefined) {
-      var values: {}
-      for (let i in this.languages){
-        values[this.languages[i]] = this.selectedLibrary.name
-      }
-      this.data.institution.libraries[0].data.name= {
-        value: values,
-        type:"text",
-        ui:"general",
-        description:"Library Name",
-        order:0
-      }
-    } else {
-      this.data.institution.libraries[0].data.name.value = this.selectedLibrary.name
-    }
-  }
-*/
+
   onDataChange(val:any) {
     this.backorcancel = "Cancel"
   }
@@ -308,6 +360,13 @@ export class MainComponent implements OnInit, OnDestroy {
 
     this.onDataChange(0)
   }
+
+  del_field(fld) {
+    delete this.data.institution.libraries[0].data[fld]
+    this.todelete.push(fld)
+    this.onDataChange(fld)
+  }
+
 
   getKeys(ui){
     return Object.entries(this.data.institution.libraries[0].data).filter(function(el) { return el[1]['ui'] == ui }).sort(this.compare).map(x => x[0])
