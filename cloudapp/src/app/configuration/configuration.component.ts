@@ -72,9 +72,6 @@ export class ConfigurationComponent implements OnInit {
     this.configService.set(this.config).subscribe(
       () => {
         this.alert.success('Configuration successfully saved.');
-        setTimeout(() => {
-          this.back()
-        }, 3000);
       },
       err => this.alert.error(err.message),
       ()  => this.isSaving = false
