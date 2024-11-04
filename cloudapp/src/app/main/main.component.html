@@ -22,21 +22,18 @@
         </mat-panel-title>
       </mat-expansion-panel-header> 
 
-<!--      <section style="float:right;margin-bottom:0px">
-        <div class="example-button-row">
-          <button mat-stroked-button (click)="getName()">Reload name</button>
-        </div>
-      </section> -->
       <mat-form-field style="width:90%" *ngFor="let fld of getKeys('general')">
         <mat-label>{{ data.institution.libraries[0].data[fld].description}}</mat-label>
           <div *ngIf="isTranslatable(data.institution.libraries[0].data[fld].type)">
           <textarea *ngIf="data.institution.libraries[0].data[fld].type == 'textarea'" matInput [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value[defaultLanguage]" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)" style="resize: none"></textarea> 
           <input *ngIf="data.institution.libraries[0].data[fld].type != 'textarea'" matInput [type]="data.institution.libraries[0].data[fld].type" [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value[defaultLanguage]" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"/> 
-          <i class="uxf-icon uxf-globe" style="float:right;margin-top:-18px" (click)="openTranslationDialog(fld)" title="Add translations"></i>
+          <i class="uxf-icon uxf-globe" style="float:right;margin-right:-18px;margin-top:0px" (click)="openTranslationDialog(fld)" title="Add translations"></i>
+          <i class="uxf-icon uxf-trash eca-button" (click)="del_field(fld)" title="Remove this field" style="float:right;margin-right:-45px;margin-top:-7px"></i>
           </div>
           <div *ngIf="!isTranslatable(data.institution.libraries[0].data[fld].type)">
             <textarea *ngIf="data.institution.libraries[0].data[fld].type == 'textarea'" matInput [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)" style="resize: none"></textarea> 
             <input *ngIf="data.institution.libraries[0].data[fld].type != 'textarea'" matInput [type]="data.institution.libraries[0].data[fld].type" [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"/> 
+            <i class="uxf-icon uxf-trash eca-button" (click)="del_field(fld)" title="Remove this field" style="float:right;margin-right:-45px;margin-top:-7px"></i>
           </div>
         </mat-form-field>
       <p><i class="uxf-icon uxf-plus eca-button" (click)="openNewDataDialog('general')" title="Add new field"></i></p>
@@ -96,12 +93,18 @@
       <div class="example-flex-container" *ngFor="let eoh of data.institution.libraries[0].exceptions; index as i">
         <div>
           <mat-form-field style="width:120px">
-            <mat-label>Date</mat-label>
-            <input matInput type="date" style="margin-top:1px" [(ngModel)]="data.institution.libraries[0].exceptions[i].date" (ngModelChange)="onDataChange($event)"/>
+            <mat-label>Startdate</mat-label>
+            <input matInput type="date" style="margin-top:1px" [(ngModel)]="data.institution.libraries[0].exceptions[i].date.from" (ngModelChange)="onDataChange($event)"/>
           </mat-form-field>
         </div>
         <div>
-          <mat-form-field style="min-width:205px">
+          <mat-form-field style="width:120px;margin-right:80px">
+            <mat-label>Enddate</mat-label>
+            <input matInput type="date" style="margin-top:1px" [(ngModel)]="data.institution.libraries[0].exceptions[i].date.until" (ngModelChange)="onDataChange($event)"/>
+          </mat-form-field>
+        </div>        
+        <div>
+          <mat-form-field style="min-width:310px">
             <mat-label>Description</mat-label>
             <input matInput style="margin-top:1px" [(ngModel)]="data.institution.libraries[0].exceptions[i].description" (ngModelChange)="onDataChange($event)"/>
           </mat-form-field>
@@ -174,19 +177,22 @@
         <div *ngIf="isTranslatable(data.institution.libraries[0].data[fld].type)">
           <textarea *ngIf="data.institution.libraries[0].data[fld].type == 'textarea'" matInput [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value[defaultLanguage]" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)" style="resize: none"></textarea> 
           <input *ngIf="data.institution.libraries[0].data[fld].type != 'textarea'" matInput [type]="data.institution.libraries[0].data[fld].type" [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value[defaultLanguage]" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"/> 
-          <i class="uxf-icon uxf-globe" style="float:right;margin-top:-18px" (click)="openTranslationDialog(fld)" title="Add translations"></i>
+          <i class="uxf-icon uxf-globe" style="float:right;margin-right:-18px;margin-top:0px" (click)="openTranslationDialog(fld)" title="Add translations"></i>
+          <i class="uxf-icon uxf-trash eca-button" (click)="del_field(fld)" title="Remove this field" style="float:right;margin-right:-45px;margin-top:-7px"></i>
         </div>
         <div *ngIf="!isTranslatable(data.institution.libraries[0].data[fld].type)">
           <textarea *ngIf="data.institution.libraries[0].data[fld].type == 'textarea'" matInput [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)" style="resize: none"></textarea> 
           <input *ngIf="data.institution.libraries[0].data[fld].type != 'textarea'" matInput [type]="data.institution.libraries[0].data[fld].type" [name]="fld" [(ngModel)]="data.institution.libraries[0].data[fld].value" (ngModelChange)="onDataChange($event)" [pattern]="getPattern(data.institution.libraries[0].data[fld].type)"/> 
+          <i class="uxf-icon uxf-trash eca-button" (click)="del_field(fld)" title="Remove this field" style="float:right;margin-right:-45px;margin-top:-7px"></i>
         </div>
       </mat-form-field>
       <p><i class="uxf-icon uxf-plus eca-button" (click)="openNewDataDialog('additional')" title="Add new field"></i></p>
     </mat-expansion-panel>
   </mat-accordion>    
 </div>
-<!-- <pre>{{ json(data) }} </pre> -->
+<!-- <pre>{{ json(data) }} </pre>  -->
 <!-- <pre>{{json(languages)}}</pre> -->
+<!-- <pre>{{json(c_user)}}</pre> -->
 <div class="loading-shade" *ngIf="loading">
   <mat-spinner diameter="50"></mat-spinner>
 </div>
