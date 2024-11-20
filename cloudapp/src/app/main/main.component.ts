@@ -44,7 +44,7 @@ export class MainComponent implements OnInit, OnDestroy {
     {value:"number",name:"Number",pattern:"[0-9,\\.]+",translatable:false},
     {value:"tel",name:"Phonenumber",pattern:"\\+?[0-9]+",translatable:false},
     {value:"email",name:"Email",pattern:"[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}",translatable:false},
-    {value:"url",name:"URL",pattern:"https?://.+",translatable:false},
+    {value:"url",name:"URL",pattern:"https?://.+",translatable:true},
     {value:"date",name:"Date",pattern:"[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}",translatable:false},
     {value:"time",name:"Time",pattern:"([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}",translatable:false},
 ]
