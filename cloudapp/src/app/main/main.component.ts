@@ -127,7 +127,6 @@ export class MainComponent implements OnInit, OnDestroy {
     this.restService.call<any>("/almaws/v1/users/ME")
     .subscribe(
       result => {
-        console.log(result)
         this.c_user = result
         this.loadLibraries()
       },
@@ -191,6 +190,15 @@ export class MainComponent implements OnInit, OnDestroy {
           for(var key in this.data.institution.libraries[0].data) {
             var v = this.data.institution.libraries[0].data[key]
             if (v.value != undefined && (v.description != undefined || key == 'occupancy') && v.type != undefined && v.ui != undefined && v.order != undefined){
+              if (key != 'occupancy') {
+                if (this.isTranslatable(v.type) && typeof v.value != 'object') {
+                  let tmp = v.value
+                  v.value = {}
+                  for (let ii in this.languages){
+                    v.value[this.languages[ii]] = tmp
+                  }
+                }
+              }
               valid[key] = v
             }
           }
@@ -211,6 +219,7 @@ export class MainComponent implements OnInit, OnDestroy {
           this.data.institution.libraries[0] = resp; 
         },
         error: e => {
+          console.log("error " + e.status)
           if (e.status == 404) {
             this.data.institution.libraries = [{}]
             this.data.institution.libraries[0].code = this.selectedLibrary.code;
@@ -393,7 +402,6 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   getPattern(value) {
-
     return this.types.filter(function (el) { return el.value == value })[0].pattern
   }
 
@@ -405,8 +413,16 @@ export class MainComponent implements OnInit, OnDestroy {
         if (this.data.institution.libraries[0].data[i].type != 'occupancy') {
           var pattern = this.getPattern(this.data.institution.libraries[0].data[i].type)
           var reg = RegExp("^"+pattern);
-          if (this.data.institution.libraries[0].data[i].value != "" && !reg.test(this.data.institution.libraries[0].data[i].value)){
-            return false
+          if (this.isTranslatable(this.data.institution.libraries[0].data[i].type)) {
+            for (let ii in this.languages){
+              if (this.data.institution.libraries[0].data[i].value[this.languages[ii]] != "" && !reg.test(this.data.institution.libraries[0].data[i].value[this.languages[ii]])){
+                return false
+              }
+            }
+          } else {
+            if (this.data.institution.libraries[0].data[i].value != "" && !reg.test(this.data.institution.libraries[0].data[i].value)){
+              return false
+            }
           }
         }
       }
