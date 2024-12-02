@@ -346,7 +346,7 @@ export class MainComponent implements OnInit, OnDestroy {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     const formattedDate = `${year}-${month}-${day}`;
-    this.data.institution.libraries[0].exceptions.push({"date":formattedDate,"hours":[{"open":"","closed":""}],"repeat":false,"description":""})
+    this.data.institution.libraries[0].exceptions.push({"date":{"from":formattedDate,"until":formattedDate},"hours":[{"open":"","closed":""}],"repeat":false,"description":""})
     this.onDataChange(0)
   }
 
