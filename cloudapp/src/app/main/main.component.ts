@@ -86,11 +86,11 @@ export class MainComponent implements OnInit, OnDestroy {
     this.configService.getAsFormGroup().subscribe( conf => {
       if (Object.keys(conf.value).length!=0) {
         this.ohUrl = conf.value.serviceUrl
-
+/*
         if (this.ohUrl == "" || this.ohUrl == undefined) {
           this.ohUrl = "https://services.libis.be/opening_hours/"
         }
-
+*/
         this.languages = conf.value.languages
         if (this.languages == "" || this.languages == undefined || this.languages.length == 0) {
           this.languages = ["en","fr","de","nl"]
