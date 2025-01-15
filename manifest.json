@@ -1,6 +1,6 @@
 {
    "id": "opening-hours-service",
-   "title": "Opening Hours (Beta)",
+   "title": "Opening Hours",
    "subtitle": "when open ? - when closed ?",
    "author": "LIBIS",
    "description": "Cloudapp that provides the functionality of a opening/closing hours calendar",
