@@ -124,12 +124,26 @@ export class ConfigurationGuard implements CanActivate {
     private restService: CloudAppRestService,
     private router: Router
   ) {}
-
+/*
   canActivate(): Observable<boolean> {
     return this.eventsService.getInitData().pipe(
       switchMap( initData => this.restService.call(`/users/${initData.user.primaryId}`)),
       map( user => {
         if (!user.user_role.some(role=>role.role_type.value=='221')) {
+          this.router.navigate(['/error'], 
+            { queryParams: { error: ErrorMessages.NO_ACCESS }});
+          return false;
+        }
+        return true;
+      })
+    );
+  }
+*/
+  canActivate(): Observable<boolean> {
+    return this.eventsService.getInitData().pipe(
+      switchMap( initData => this.restService.call(`/users/${initData.user.primaryId}`)),
+      map( user => {
+        if (!user.user_role.some(role=>role.role_type.desc == 'Circulation Desk Manager')) {
           this.router.navigate(['/error'], 
             { queryParams: { error: ErrorMessages.NO_ACCESS }});
           return false;
