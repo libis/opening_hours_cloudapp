@@ -126,6 +126,7 @@ export class ConfigurationGuard implements CanActivate {
   ) {}
 /*
   canActivate(): Observable<boolean> {
+    console.log("canActivate");
     return this.eventsService.getInitData().pipe(
       switchMap( initData => this.restService.call(`/users/${initData.user.primaryId}`)),
       map( user => {
@@ -138,18 +139,14 @@ export class ConfigurationGuard implements CanActivate {
       })
     );
   }
-*/
+  */
   canActivate(): Observable<boolean> {
     return this.eventsService.getInitData().pipe(
       switchMap( initData => this.restService.call(`/users/${initData.user.primaryId}`)),
       map( user => {
-        if (!user.user_role.some(role=>role.role_type.desc == 'Circulation Desk Manager')) {
-          this.router.navigate(['/error'], 
-            { queryParams: { error: ErrorMessages.NO_ACCESS }});
-          return false;
-        }
         return true;
       })
     );
   }
+ 
 }
