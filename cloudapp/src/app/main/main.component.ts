@@ -112,12 +112,8 @@ export class MainComponent implements OnInit, OnDestroy {
     this.restService.call<any>("/almaws/v1/conf/libraries")
     .subscribe(
       result => {
-        let scopes = this.c_user.user_role.filter((t) => (t.role_type.desc == 'Circulation Desk Manager')).map(x => x.scope.value)
+        let scopes = this.c_user.user_role.filter((t) => (t.role_type.desc.toLowerCase() == 'circulation desk manager' || t.role_type.value=='221' || t.role_type.value==221)).map(x => x.scope.value)
         this.libraries = result.library.filter((s) => (scopes.indexOf(s.code) > -1)).sort((a,b) => a.code > b.code)
-        if (this.libraries.length == 1) {
-          this.selectedLibrary = this.libraries[0]
-          this.onSelectLibrary(this.selectedLibrary)
-        }
       },
       error => this.alert.error('Failed to retrieve libraries: ' + error.message)
     );    
