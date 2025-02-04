@@ -39,14 +39,14 @@ export class MainComponent implements OnInit, OnDestroy {
   times = [""]
 
   types: any = [
-    {value:"text",name:"Text",pattern:".+",translatable:true},
-    {value:"textarea",name:"Long Text",pattern:".+",translatable:true},
-    {value:"number",name:"Number",pattern:"[0-9,\\.]+",translatable:false},
-    {value:"tel",name:"Phonenumber",pattern:"\\+?[0-9]+",translatable:false},
-    {value:"email",name:"Email",pattern:"[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}",translatable:false},
-    {value:"url",name:"URL",pattern:"https?://.+",translatable:true},
-    {value:"date",name:"Date",pattern:"[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}",translatable:false},
-    {value:"time",name:"Time",pattern:"([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}",translatable:false},
+    {value:"text",name:"Text",pattern:/^.+/,translatable:true},
+    {value:"textarea",name:"Long Text",pattern:/^.+/,translatable:true},
+    {value:"number",name:"Number",pattern:/^[0-9,\\.]+/,translatable:false},
+    {value:"tel",name:"Phonenumber",pattern:/^\+?[0-9() ]+$/,translatable:false},
+    {value:"email",name:"Email",pattern:/^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}/,translatable:false},
+    {value:"url",name:"URL",pattern:/^https?:\/\/.+/,translatable:true},
+    {value:"date",name:"Date",pattern:/^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}/,translatable:false},
+    {value:"time",name:"Time",pattern:/^([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}/,translatable:false},
 ]
 
 
@@ -407,23 +407,37 @@ export class MainComponent implements OnInit, OnDestroy {
       for(var j in keys) {
         var i = keys[j]
         if (this.data.institution.libraries[0].data[i].type != 'occupancy') {
+          console.log("---------------------------------------------------")
+          console.log(this.data.institution.libraries[0].data[i].value)
+          console.log(this.data.institution.libraries[0].data[i].type)
           var pattern = this.getPattern(this.data.institution.libraries[0].data[i].type)
-          var reg = RegExp("^"+pattern);
+          console.log(pattern)
+          var reg = RegExp(pattern);
           if (this.isTranslatable(this.data.institution.libraries[0].data[i].type)) {
+            console.log("Translatable")
             for (let ii in this.languages){
               if (this.data.institution.libraries[0].data[i].value[this.languages[ii]] != "" && !reg.test(this.data.institution.libraries[0].data[i].value[this.languages[ii]])){
+                console.log("return false")
                 return false
+              } else {
+                console.log("Matched")
               }
-            }
+            } 
           } else {
+            console.log("Not translatable")
             if (this.data.institution.libraries[0].data[i].value != "" && !reg.test(this.data.institution.libraries[0].data[i].value)){
+              console.log("return false")
               return false
+            } else {
+              console.log("Matched")
             }
           }
         }
       }
+      console.log("return true")
       return true
     }
+    console.log("return false")
     return false
   }
 
