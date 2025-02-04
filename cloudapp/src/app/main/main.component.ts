@@ -402,47 +402,47 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   isValid(){
-    console.log(this.data.institution)
+    //console.log(this.data.institution)
     if (this.data.institution.libraries[0].data != undefined) {
       var keys = Object.entries(this.data.institution.libraries[0].data).map(x => x[0])
       for(var j in keys) {
         var i = keys[j]
         if (this.data.institution.libraries[0].data[i].type != 'occupancy') {
-          console.log("---------------------------------------------------")
-          console.log(this.data.institution.libraries[0].data[i].value)
-          console.log(this.data.institution.libraries[0].data[i].type)
+          //console.log("---------------------------------------------------")
+          //console.log(this.data.institution.libraries[0].data[i].value)
+          //console.log(this.data.institution.libraries[0].data[i].type)
           var pattern = this.getPattern(this.data.institution.libraries[0].data[i].type)
-          console.log(pattern)
+          //console.log(pattern)
           var reg = RegExp(pattern);
           if (this.isTranslatable(this.data.institution.libraries[0].data[i].type)) {
-            console.log("Translatable")
+            //console.log("Translatable")
             for (let ii in this.languages){
               if (this.data.institution.libraries[0].data[i].value[this.languages[ii]] != undefined 
                     && this.data.institution.libraries[0].data[i].value[this.languages[ii]] != "" 
                     && !reg.test(this.data.institution.libraries[0].data[i].value[this.languages[ii]])){
-                console.log("return false 1")
+                //console.log("return false 1")
                 return false
               } else {
-                console.log("Matched")
+                //console.log("Matched")
               }
             } 
           } else {
-            console.log("Not translatable")
+            //console.log("Not translatable")
             if (this.data.institution.libraries[0].data[i].value != undefined 
                   && this.data.institution.libraries[0].data[i].value != "" 
                   && !reg.test(this.data.institution.libraries[0].data[i].value)){
-              console.log("return false 2")
+              //console.log("return false 2")
               return false
             } else {
-              console.log("Matched")
+              //console.log("Matched")
             }
           }
         }
       }
-      console.log("return true")
+      //console.log("return true")
       return true
     }
-    console.log("return false 3")
+    //console.log("return false 3")
     return false
   }
 
