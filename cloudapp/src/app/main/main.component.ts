@@ -402,6 +402,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   isValid(){
+    console.log(this.data.institution)
     if (this.data.institution.libraries[0].data != undefined) {
       var keys = Object.entries(this.data.institution.libraries[0].data).map(x => x[0])
       for(var j in keys) {
@@ -417,7 +418,7 @@ export class MainComponent implements OnInit, OnDestroy {
             console.log("Translatable")
             for (let ii in this.languages){
               if (this.data.institution.libraries[0].data[i].value[this.languages[ii]] != "" && !reg.test(this.data.institution.libraries[0].data[i].value[this.languages[ii]])){
-                console.log("return false")
+                console.log("return false 1")
                 return false
               } else {
                 console.log("Matched")
@@ -426,7 +427,7 @@ export class MainComponent implements OnInit, OnDestroy {
           } else {
             console.log("Not translatable")
             if (this.data.institution.libraries[0].data[i].value != "" && !reg.test(this.data.institution.libraries[0].data[i].value)){
-              console.log("return false")
+              console.log("return false 2")
               return false
             } else {
               console.log("Matched")
@@ -437,7 +438,7 @@ export class MainComponent implements OnInit, OnDestroy {
       console.log("return true")
       return true
     }
-    console.log("return false")
+    console.log("return false 3")
     return false
   }
 
