@@ -9,7 +9,7 @@ The main goal of the app, in combination with the opening hours service, is to c
 The Configuration screen is accessible by the wrench-icon.
 It has 2 fields.
 
-Service URL: The URL of the Opening Hours API-endpoint. This needs to be configured only once after the API has been set up.
+Service URL: The URL of the Opening Hours API-endpoint. This needs to be configured only once after the API has been set up.  (Interested to get a service URL hosted by LIBIS? [Contact us!](https://www.Libis.be/contact))
 
 Languages: the user can select the languages the Opening hours Cloud App will provide in the Translations-dialog. Adding a language can be done by selecting it from the dropdown-selector and removing a language is done with the minus-icon.
 
