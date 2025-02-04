@@ -417,7 +417,9 @@ export class MainComponent implements OnInit, OnDestroy {
           if (this.isTranslatable(this.data.institution.libraries[0].data[i].type)) {
             console.log("Translatable")
             for (let ii in this.languages){
-              if (this.data.institution.libraries[0].data[i].value[this.languages[ii]] != "" && !reg.test(this.data.institution.libraries[0].data[i].value[this.languages[ii]])){
+              if (this.data.institution.libraries[0].data[i].value[this.languages[ii]] != undefined 
+                    && this.data.institution.libraries[0].data[i].value[this.languages[ii]] != "" 
+                    && !reg.test(this.data.institution.libraries[0].data[i].value[this.languages[ii]])){
                 console.log("return false 1")
                 return false
               } else {
@@ -426,7 +428,9 @@ export class MainComponent implements OnInit, OnDestroy {
             } 
           } else {
             console.log("Not translatable")
-            if (this.data.institution.libraries[0].data[i].value != "" && !reg.test(this.data.institution.libraries[0].data[i].value)){
+            if (this.data.institution.libraries[0].data[i].value != undefined 
+                  && this.data.institution.libraries[0].data[i].value != "" 
+                  && !reg.test(this.data.institution.libraries[0].data[i].value)){
               console.log("return false 2")
               return false
             } else {
