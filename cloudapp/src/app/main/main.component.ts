@@ -213,6 +213,7 @@ export class MainComponent implements OnInit, OnDestroy {
       .subscribe({
         next: resp => { 
           this.data.institution.libraries[0] = resp; 
+          this.data.institution.libraries[0].name = this.selectedLibrary.name;
         },
         error: e => {
           console.log("error " + e.status)
