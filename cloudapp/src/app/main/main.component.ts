@@ -14,6 +14,7 @@ import { NONE_TYPE, NullTemplateVisitor } from '@angular/compiler';
 import { MatDialog } from '@angular/material/dialog';
 import { NewDataComponent} from '../newdata/newdata.component';
 import { TranslationComponent} from '../translation/translation.component';
+import { ConfirmationComponent } from './../confirmation/confirmation.component';
 
 @Component({
   selector: 'app-main',
@@ -34,7 +35,7 @@ export class MainComponent implements OnInit, OnDestroy {
   todelete : any = []
 
   backorcancel: string = "Back"
-  authToken: string
+  authToken: string = ""
   weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
   times = [""]
 
@@ -368,9 +369,17 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   del_field(fld) {
-    delete this.data.institution.libraries[0].data[fld]
-    this.todelete.push(fld)
-    this.onDataChange(fld)
+    const dialogRef = this.dialog.open(ConfirmationComponent,{
+      width:'250px'
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if(result) {
+        delete this.data.institution.libraries[0].data[fld]
+        this.todelete.push(fld)
+        this.onDataChange(fld)
+      }
+    })  
   }
 
 
