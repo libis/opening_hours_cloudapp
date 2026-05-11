@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MainComponent } from './main/main.component';
 import { NewDataComponent} from './newdata/newdata.component';
 import { ConfigurationComponent } from './configuration/configuration.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { TranslationComponent} from './translation/translation.component';
 import { MatDialogModule } from '@angular/material/dialog';
 
@@ -21,7 +22,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MainComponent,
     NewDataComponent,
     TranslationComponent,
-    ConfigurationComponent
+    ConfigurationComponent,
+    ConfirmationComponent
   ],
   imports: [
     MaterialModule,
